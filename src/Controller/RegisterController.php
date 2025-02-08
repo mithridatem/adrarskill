@@ -29,13 +29,13 @@ final class RegisterController extends AbstractController
         $form = $this->createForm(RegisterType::class, $account);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $imgFile = $form->get('img')->getData();
 
-            if($imgFile) {
+            if ($imgFile) {
                 $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $this->slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$imgFile->guessExtension();
+                $newFilename = $account->getFirstname() . '.' . $safeFilename . '-' . uniqid() . '.' . $imgFile->guessExtension();
 
                 try {
                     $imgFile->move(
