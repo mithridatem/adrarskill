@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class RegisterType extends AbstractType
 {
@@ -48,7 +49,17 @@ class RegisterType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Sélectionner une image'
-                ]
+                ],
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez ajouter une image au format correct (jpeg, png)',
+                    ])
+                ],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'S\'inscrire'
